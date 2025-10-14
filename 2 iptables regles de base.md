@@ -3,6 +3,12 @@ title: "Règles de base d'un Firewall"
 layout: default
 ---
 
+# Règles de base d'un Firewall
+
+## Résumé
+...
+
+
 
 |                 |                                                              |
 | --------------- | ------------------------------------------------------------ |
