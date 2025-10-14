@@ -1,14 +1,12 @@
 ---
 title: "Règles de base d'un Firewall"
 layout: default
+permalink: /regles-base/
 ---
 
 # Règles de base d'un Firewall
 
 ## Résumé
-...
-
-
 
 |                 |                                                              |
 | --------------- | ------------------------------------------------------------ |
