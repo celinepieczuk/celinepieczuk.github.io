@@ -1,4 +1,1 @@
-theme: jekyll-theme-modernist
-
-plugins:
-  - jekyll-remote-theme
+theme: jekyll-theme-minimal
