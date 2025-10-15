@@ -11,12 +11,12 @@ Clique sur un chapitre pour y accéder :
 
 ## 📑 Sommaire
 
-1. [Mise en place](1%20iptables%20mise%20en%20place.md)  
-2. [Règles de base](2%20iptables%20regles%20de%20base.md)  
-3. [Firewall statefull](3%20iptables%20firewall%20statefull.md)  
-4. [Chaînes personnalisées](4%20chaines%20personnalisees.md)  
-5. [NAT](5%20NAT.md)  
-6. [Proxies et accounting](6%20Proxies%20et%20accounting.md)
+1. [Mise en place](/mise-en-place/)
+2. [Règles de base](/regles-de-base/)
+3. [Firewall statefull](/firewall-statefull/)
+4. [Chaînes personnalisées](/chaines-personnalisees/)
+5. [NAT](/nat/)
+6. [Proxies et accounting](/proxies-accounting/)
 
 ---
 
