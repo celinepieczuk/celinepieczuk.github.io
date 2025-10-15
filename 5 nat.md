@@ -1,3 +1,9 @@
+---
+title: "NAT"
+layout: default
+permalink: /nat/
+---
+
 # NAT
 
 ## Résumé
