@@ -1,3 +1,10 @@
+---
+title: "Chaînes personnalisées"
+layout: default
+permalink: /chaines-personnalisees/
+---
+
+
 # Chaînes personnalisées
 
 ## Résumé
