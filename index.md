@@ -23,9 +23,7 @@ Clique sur un chapitre pour y accéder :
 
 ## ℹ️ Informations
 
-- Chaque chapitre est un fichier `.md` de ce dépôt.  
-- Tu peux naviguer directement dans GitHub ou utiliser ce sommaire.  
-- Le site est généré automatiquement via **GitHub Pages** et le thème *Cayman*.
+- Test 
 
 ---
 
