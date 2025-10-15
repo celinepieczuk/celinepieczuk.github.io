@@ -1,3 +1,10 @@
+---
+title: "Mise en place"
+layout: default
+permalink: /mise-en-place/
+---
+
+
 # Mise en place du laboratoire
 
 ## Résumé
