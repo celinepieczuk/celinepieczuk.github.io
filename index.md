@@ -1,5 +1,6 @@
 ---
 title: "Cours IPTables"
+permalink: /
 ---
 
 # 📘 Cours IPTables
