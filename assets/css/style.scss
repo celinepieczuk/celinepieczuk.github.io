@@ -3,5 +3,7 @@
 
 @import "{{ site.theme }}";
 
-/* Masquer le bouton "View on GitHub" du header */
-.page-header .btn { display: none; }
+/* Masquer le bouton "View on GitHub" */
+header .btn {
+  display: none !important;
+}
