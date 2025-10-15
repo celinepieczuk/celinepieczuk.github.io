@@ -1,8 +1,9 @@
 ---
-title: "Règles de base d'un Firewall"
+title: "Règles de base"
 layout: default
-permalink: /regles-base/
+permalink: /regles-de-base/
 ---
+
 
 # Règles de base d'un Firewall
 
