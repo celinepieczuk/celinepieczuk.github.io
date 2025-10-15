@@ -1,3 +1,10 @@
+---
+title: "Proxies et accounting"
+layout: default
+permalink: /proxies-accounting/
+---
+
+
 # Chaînes personnalisées
 
 ## Résumé
