@@ -1,7 +1,6 @@
 ---
-layout: page
+layout: default
 title: "Règles de base"
-nav_order: 2
 permalink: /regles-de-base/
 ---
 
