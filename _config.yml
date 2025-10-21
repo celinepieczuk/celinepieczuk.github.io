@@ -2,7 +2,7 @@ title: "Laboratoires de Sécurité des Réseaux - Module II"
 description: "Cours IPTables / Réseaux"
 
 url: "https://celinepieczuk.github.io"
-baseurl: ""            # vide pour un site utilisateur (celinepieczuk.github.io)
+baseurl: ""                 # vide pour un site utilisateur
 
 remote_theme: kevinlin1/just-the-class
 plugins:
