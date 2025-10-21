@@ -1,7 +1,7 @@
 ---
-title: "Firewall statefull"
-layout: default
-permalink: /firewall-statefull/
+layout: page
+title: "Firewall Statefull"
+nav_order: 3
 ---
 
 
