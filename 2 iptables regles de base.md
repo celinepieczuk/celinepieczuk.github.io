@@ -2,6 +2,7 @@
 layout: page
 title: "Règles de base"
 nav_order: 2
+permalink: /regles-de-base/
 ---
 
 # Règles de base d'un Firewall
