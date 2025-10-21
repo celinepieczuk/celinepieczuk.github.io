@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v4
-      - uses: actions/jekyll-build-pages@v1
+      - uses: actions/jekyll-build-pages@v1   # supporte remote_theme
         with:
           source: ./
           destination: ./_site
