@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: default
 title: "Laboratoires de Sécurité des Réseaux - Module II"
 nav_exclude: true
 permalink: /
