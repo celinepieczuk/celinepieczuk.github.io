@@ -1,23 +1,11 @@
 title: "Laboratoires de Sécurité des Réseaux - Module II"
 description: "Cours IPTables / Réseaux"
-url: "https://celinepieczuk.github.io"  # ton site GitHub Pages
-baseurl: ""                             # vide car c'est un site utilisateur
+url: "https://celinepieczuk.github.io"
+baseurl: ""                         # vide pour un site utilisateur
 
-# Thème
 remote_theme: kevinlin1/just-the-class
-
-# Plugins nécessaires
 plugins:
   - jekyll-remote-theme
-  - jekyll-seo-tag
 
-# Markdown et highlight
 markdown: kramdown
 highlighter: rouge
-
-# Exclusions (facultatif)
-exclude:
-  - README.md
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
