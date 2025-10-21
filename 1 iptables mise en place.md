@@ -1,9 +1,8 @@
 ---
-title: "Mise en place"
-layout: default
-permalink: /mise-en-place/
+layout: page
+title: "Mise en place du laboratoire"
+nav_order: 1
 ---
-
 
 # Mise en place du laboratoire
 
