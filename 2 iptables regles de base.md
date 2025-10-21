@@ -1,9 +1,8 @@
 ---
+layout: page
 title: "Règles de base"
-layout: default
-permalink: /regles-de-base/
+nav_order: 2
 ---
-
 
 # Règles de base d'un Firewall
 
