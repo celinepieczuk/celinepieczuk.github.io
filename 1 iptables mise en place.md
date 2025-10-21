@@ -2,6 +2,7 @@
 layout: page
 title: "Mise en place du laboratoire"
 nav_order: 1
+permalink: /mise-en-place/
 ---
 
 # Mise en place du laboratoire
