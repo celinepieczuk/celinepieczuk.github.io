@@ -3,12 +3,11 @@ description: "Cours IPTables / Réseaux"
 
 url: "https://celinepieczuk.github.io"
 baseurl: ""                 # vide pour un site utilisateur
-
-remote_theme: kevinlin1/just-the-class
-plugins:
-  - jekyll-remote-theme
-
 markdown: kramdown
 highlighter: rouge
+plugins:
+  - jekyll-remote-theme
+remote_theme: kevinlin1/just-the-class
+
 sass:
   style: compressed
