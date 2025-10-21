@@ -1,9 +1,8 @@
 ---
+layout: page
 title: "Chaînes personnalisées"
-layout: default
-permalink: /chaines-personnalisees/
+nav_order: 4
 ---
-
 
 # Chaînes personnalisées
 
