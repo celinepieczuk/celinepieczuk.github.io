@@ -1,1 +1,4 @@
 theme: jekyll-theme-minimal
+
+url: "https://celinepieczuk.github.io"
+baseurl: ""     # vide pour un site utilisateur
