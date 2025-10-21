@@ -1,0 +1,71 @@
+/* === Personnalisation du thème Cayman (bleu clair) === */
+
+/* Couleurs principales */
+:root {
+  --primary-color: #4aa3df;       /* Bleu clair principal */
+  --secondary-color: #eaf6fb;     /* Fond clair */
+  --text-color: #1e2a33;          /* Texte sombre doux */
+  --link-color: #2479b5;          /* Liens */
+  --header-bg: #4aa3df;           /* Bannière */
+  --header-text: #ffffff;         /* Texte de l’en-tête */
+}
+
+/* Bannière / header */
+.page-header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  background-image: none !important; /* Retire les dégradés verts par défaut */
+}
+
+/* Lien */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  color: #166699;
+}
+
+/* Corps du texte */
+body {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Titres */
+h1, h2, h3, h4 {
+  color: #166699;
+}
+
+/* Tableaux */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+th, td {
+  border: 1px solid #d0e6f3;
+  padding: 0.6em;
+}
+th {
+  background-color: #e1f1f9;
+}
+
+/* Code blocks */
+pre, code {
+  background: #eef6fb;
+  border-radius: 6px;
+  padding: 0.3em 0.6em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: #1c3a52;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #4aa3df;
+  color: #fff;
+  padding: 0.5rem;
+  border-top: none;
+}
