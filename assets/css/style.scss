@@ -1,11 +1,12 @@
 ---
 ---
 
+/* Import du thème minimal */
 @import "{{ site.theme }}";
 
-/* Fond clair et texte */
+/* ====== Base claire ====== */
 html, body {
-  background: #ffffff;   /* blanc pur */
+  background: #ffffff;         /* fond clair */
   color: #2c3e50;
   line-height: 1.6;
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -13,84 +14,100 @@ html, body {
   padding: 0;
 }
 
-/* Réduction de la sidebar */
+/* ====== Sidebar (colonne gauche) plus petite ====== */
 header {
-  width: 180px;        /* plus étroit que par défaut */
-  padding: 1rem;
-  background: #f9fafc; /* gris très clair pour contraster avec le fond blanc */
+  width: 180px;                /* réduit (était plus large) */
+  padding: 1rem 1rem;
+  background: #f7f9fc;        /* léger contraste vs fond */
   border-right: 1px solid #e2e8f0;
 }
 
-/* Masquer le lien GitHub profile dans la sidebar */
+header h1, header h2 {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+header p { margin-top: .5rem; }
+
+/* Masquer "View My GitHub Profile" */
 header a[href*="github.com"] {
   display: none !important;
 }
 
-
-header h1, header h2, header a {
-  font-size: 0.95rem;
-}
-
-/* Ajuster le contenu principal */
+/* ====== Zone de contenu plus large ====== */
 .wrapper, .page-content {
-  max-width: 1000px;
-  margin-left: 200px;   /* laisse de la place pour la sidebar */
+  max-width: 1200px;          /* élargi */
+  margin-left: 200px;         /* laisse la place à la sidebar (180 + un peu d’air) */
   padding: 2rem;
   background: #fff;
 }
 
-/* Titres */
+/* ====== Titres & liens ====== */
 h1, h2, h3, h4 {
   line-height: 1.3;
   font-weight: 650;
   margin: 1.5rem 0 .8rem;
   color: #1a202c;
 }
-
 h1 {
   font-size: 2.2rem;
   border-bottom: 2px solid #e2e8f0;
-  padding-bottom: .3rem;
+  padding-bottom: .35rem;
 }
-h2 {
-  font-size: 1.6rem;
-  color: #2b6cb0;
-}
+h2 { font-size: 1.6rem; color: #2b6cb0; }
 
-/* Liens */
-a { color: #3182ce; text-decoration: none; transition: color .2s; }
-a:hover { color: #2c5282; text-decoration: underline; }
+a { color: #2b6cb0; text-decoration: none; transition: color .2s ease; }
+a:hover { color: #1e4f91; text-decoration: underline; }
 
-/* Tableaux */
+/* ====== Tableaux ====== */
 table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: .95rem; }
 th, td { border: 1px solid #e2e8f0; padding: .6rem; text-align: left; }
 th { background: #edf2f7; }
 
-/* Code */
-
-/* Code inline */
+/* ====== Code clair (inline & blocs) ====== */
 code {
-  background: #f6f8fa;   /* gris clair GitHub-like */
-  color: #e83e8c;        /* couleur accent pour le texte inline */
-  padding: 0.2rem 0.4rem;
+  background: #f6f8fa;        /* gris clair style GitHub */
+  color: #d12b69;             /* accent sobre */
+  padding: .2rem .4rem;
   border-radius: 4px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.9em;
+  font-size: .9em;
 }
 
-/* Blocs de code */
 pre code {
   display: block;
-  background: #f6f8fa;   /* fond clair au lieu du sombre */
-  color: #24292e;        /* texte foncé, lisible */
+  background: #f6f8fa;        /* clair (au lieu de sombre) */
+  color: #24292e;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #e1e4e8;
   overflow-x: auto;
 }
 
-/* Images */
-img { display: block; max-width: 100%; margin: 1rem auto; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,.15); }
+/* ====== Images ====== */
+img {
+  display: block;
+  max-width: 100%;
+  margin: 1rem auto;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.10);
+}
 
-/* Footer */
+/* ====== Footer ====== */
 footer { text-align: center; margin: 2rem 0; font-size: .9rem; color: #718096; }
+
+/* ====== Responsive ====== */
+@media (max-width: 980px) {
+  header {
+    width: auto;               /* la sidebar prend toute la largeur au-dessus */
+    border-right: 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .wrapper, .page-content {
+    margin-left: 0;            /* le contenu reprend toute la largeur */
+    padding: 1.25rem;
+    max-width: 100%;
+  }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.35rem; }
+}
+
