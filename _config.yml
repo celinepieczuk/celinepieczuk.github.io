@@ -1,7 +1,5 @@
 theme: jekyll-theme-minimal
-
 url: "https://celinepieczuk.github.io"
-baseurl: ""     # vide pour un site utilisateur
-
+baseurl: "/mise-en-place"  
 sass:
   style: compressed
