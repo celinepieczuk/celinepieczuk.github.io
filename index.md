@@ -1,25 +1,26 @@
 ---
 layout: home
-title: "Laboratoires de Sécurité des Réseaux – Module II"
+title: "Laboratoires de Sécurité des Réseaux - Module II"
 nav_exclude: true
 permalink: /
 ---
 
 # 📘 Laboratoires de Sécurité des Réseaux Module II
 
-Bienvenue sur le site consacré au Module II du cours RT333 - Sécurité des Réseaux.  
+Bienvenue sur le site consacré au Module II du cours RT333 - Sécurité des Réseaux.
 Clique sur un chapitre pour y accéder :
 
 ---
 
 ## 📑 Sommaire
 
-1. [Mise en place](1%20iptables%20mise%20en%20place.md)
-2. [Règles de base](2%20iptables%20regles%20de%20base.md)
-3. [Firewall statefull](3%20iptables%20firewall%20statefull.md)
-4. [Chaînes personnalisées](4%20chaines%20personnalisees.md)
-5. [NAT](5%20nat.md)
-6. [Proxies et Accounting](6%20Proxies%20et%20accounting.md)
+1. [Mise en place]({{ '/mise-en-place/' | relative_url }})
+2. [Règles de base]({{ '/regles-de-base/' | relative_url }})
+3. [Firewall stateful]({{ '/firewall-statefull/' | relative_url }})
+4. [Chaînes personnalisées]({{ '/chaines-personnalisees/' | relative_url }})
+5. [NAT]({{ '/nat/' | relative_url }})
+6. [Proxies et Accounting]({{ '/proxies-accounting/' | relative_url }})
+
 
 ---
 
