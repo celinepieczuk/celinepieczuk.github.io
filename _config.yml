@@ -1,30 +1,41 @@
-# --- Site ---
-title: "Laboratoires de Sécurité des Réseaux"
-description: "Cours IPTables / Réseaux"
-url: "https://celinepieczuk.github.io"   # ton domaine
-baseurl: ""                               # vide si repo utilisateur (celinepieczuk.github.io)
+# ========================
+# Configuration du site
+# ========================
 
-# --- Thème ---
-# enlève: theme: jekyll-theme-minimal
+title: "Laboratoires de Sécurité des Réseaux - Module II"
+description: "Cours d’IPTables et sécurité des réseaux"
+url: "https://celinepieczuk.github.io"   # ton site GitHub Pages
+baseurl: "/"                             # laisse ça vide ou "/" si ton site est à la racine
+
+# ========================
+# Thème
+# ========================
+
 remote_theme: kevinlin1/just-the-class
 
-# --- Plugins (GH Pages supporte celui-ci) ---
 plugins:
   - jekyll-remote-theme
 
-# --- Nav (optionnel, exemple de menu haut) ---
-just_the_class:
-  collections:
-    # active les annonces si tu en veux (facultatif)
-    announcements:
-      output: true
-  footer_content: ""   # masque le footer par défaut si tu veux
+# ========================
+# Options de navigation
+# ========================
 
-# --- Collections par défaut (facultatif) ---
-collections:
-  announcements:
-    output: true
+nav_external_links:
+  - title: "GitHub"
+    url: "https://github.com/celinepieczuk"
 
-# --- Options Markdown (conserve ce que tu avais) ---
-markdown: kramdown
-highlighter: rouge
+# ========================
+# Paramètres du thème
+# ========================
+
+# Numérotation automatique des titres
+heading_number: true
+
+# Génération d’une table des matières (toc) pour chaque page
+toc: true
+
+# ========================
+# Sass / CSS
+# ========================
+sass:
+  style: compressed
