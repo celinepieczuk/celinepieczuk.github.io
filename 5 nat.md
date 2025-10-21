@@ -2,6 +2,7 @@
 layout: page
 title: "NAT"
 nav_order: 5
+permalink: /nat/
 ---
 
 # NAT
