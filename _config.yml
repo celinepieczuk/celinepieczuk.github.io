@@ -1,41 +1,14 @@
-# ========================
-# Configuration du site
-# ========================
-
 title: "Laboratoires de Sécurité des Réseaux - Module II"
-description: "Cours d’IPTables et sécurité des réseaux"
-url: "https://celinepieczuk.github.io"   # ton site GitHub Pages
-baseurl: "/"                             # laisse ça vide ou "/" si ton site est à la racine
+description: "Cours IPTables / Réseaux"
 
-# ========================
-# Thème
-# ========================
+url: "https://celinepieczuk.github.io"
+baseurl: ""            # vide pour un site utilisateur (celinepieczuk.github.io)
 
 remote_theme: kevinlin1/just-the-class
-
 plugins:
   - jekyll-remote-theme
 
-# ========================
-# Options de navigation
-# ========================
-
-nav_external_links:
-  - title: "GitHub"
-    url: "https://github.com/celinepieczuk"
-
-# ========================
-# Paramètres du thème
-# ========================
-
-# Numérotation automatique des titres
-heading_number: true
-
-# Génération d’une table des matières (toc) pour chaque page
-toc: true
-
-# ========================
-# Sass / CSS
-# ========================
+markdown: kramdown
+highlighter: rouge
 sass:
   style: compressed
