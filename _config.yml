@@ -1,5 +1,5 @@
 theme: jekyll-theme-minimal
 url: "https://celinepieczuk.github.io"
-baseurl: "/"  
+baseurl: ""      # très important pour les URLs et les assets
 sass:
   style: compressed
