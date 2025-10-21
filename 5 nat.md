@@ -1,7 +1,7 @@
 ---
+layout: page
 title: "NAT"
-layout: default
-permalink: /nat/
+nav_order: 5
 ---
 
 # NAT
