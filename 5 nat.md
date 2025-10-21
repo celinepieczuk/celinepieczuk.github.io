@@ -1,7 +1,6 @@
 ---
-layout: page
+layout: default
 title: "NAT"
-nav_order: 5
 permalink: /nat/
 ---
 
