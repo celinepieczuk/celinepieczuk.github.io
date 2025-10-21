@@ -1,5 +1,7 @@
 ---
-title: "Sécurité des Réseaux - RT333 - Module II"
+layout: home
+title: "Laboratoires de Sécurité des Réseaux – Module II"
+nav_exclude: true
 permalink: /
 ---
 
