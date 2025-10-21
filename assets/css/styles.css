@@ -1,0 +1,109 @@
+---
+---
+
+/* === Thème Cayman personnalisé (bleu clair pastel) === */
+
+/* Étape 1 : Définition des variables AVANT l'import du thème */
+$header-bg-color:            #a9d6e5;  /* bleu pastel clair */
+$header-bg-color-secondary:  #89c2d9;  /* dégradé doux */
+$section-headings-color:     #468faf;  /* bleu légèrement plus soutenu */
+$body-link-color:            #2a6f97;  /* bleu moyen pour les liens */
+$blockquote-border-color:    #cfe9f5;  /* bleu très pâle */
+$code-bg-color:              #f0f8fb;  /* fond clair pour le code */
+$table-border-color:         #cde5f1;  /* bordure douce */
+$body-font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+/* Étape 2 : Import du thème Cayman */
+@import "{{ site.theme }}";
+
+/* Étape 3 : Personnalisation complémentaire */
+
+/* --- Arrière-plan général --- */
+body {
+  background: #f8fbfd; /* quasi blanc avec une nuance bleutée */
+  color: #203040;
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+/* --- Bannière / En-tête --- */
+.page-header {
+  background-image: none; /* supprime le dégradé par défaut */
+  background-color: linear-gradient(90deg, #a9d6e5, #89c2d9);
+  color: #1b2d3c;
+  text-shadow: none;
+  border-bottom: 1px solid #bcdff2;
+}
+
+/* --- Titres --- */
+h1, h2, h3, h4 {
+  color: #2a6f97;
+  font-weight: 600;
+  margin-top: 1.8rem;
+}
+
+/* --- Liens --- */
+a {
+  color: #2a6f97;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #014f86;
+  text-decoration: underline;
+}
+
+/* --- Blocs de code --- */
+pre, code {
+  background: #f0f8fb;
+  border-radius: 8px;
+  color: #0a3759;
+}
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid #d7ebf7;
+}
+code {
+  padding: 0.2rem 0.4rem;
+}
+
+/* --- Tableaux --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+th, td {
+  border: 1px solid #cde5f1;
+  padding: 0.6rem;
+}
+th {
+  background: #e6f3f8;
+  color: #17415c;
+}
+
+/* --- Citations --- */
+blockquote {
+  border-left: 4px solid #89c2d9;
+  background: #f3faff;
+  color: #1e3a4b;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+}
+
+/* --- Footer --- */
+.site-footer {
+  background: #a9d6e5;
+  color: #1e2a33;
+  text-shadow: none;
+  border-top: 1px solid #bcdff2;
+  font-size: 0.9rem;
+}
+
+/* --- Titres de sections dans les tables --- */
+thead th {
+  background: #d7edf5;
+  color: #144d68;
+}
