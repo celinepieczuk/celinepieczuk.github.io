@@ -1,7 +1,6 @@
 ---
-layout: page
+layout: default
 title: "Proxies et Accounting"
-nav_order: 6
 permalink: /proxies-accounting/
 ---
 
