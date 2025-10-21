@@ -52,7 +52,7 @@ Après cette section, vous serez capable de:
 
 La manipulation peut se réaliser entièrement en machines virtuelles. Un PC suffit.
 
-Néanmoins il est vivement conseillé de travailler en binômes, surtout pour la manipulation impliquant 2 firewalls
+Néanmoins il est vivement conseillé de travailler en binômes, surtout pour la manipulation impliquant 2 firewalls.
 
 La préparation des machines virtuelles du laboratoire est à terminer à domicile avant la 2ème séance.
 
@@ -66,7 +66,7 @@ Pour chaque manipulation :
 - ​	**Soyez attentif à ne garder aucune règle inutile !**
 - ​	***Utiliser les filtres les plus précis possibles (IP, ports, Interfaces,etc.)***
 - ​	***Commentez le rôle de chaque ligne !***
-- ​	***Vérifiez systématiquement que le traffic réseau***
+- ​	***Vérifiez systématiquement que le trafic réseau :***
   - ​		***bloqué ne peut pas 	passer***
   - ​		***autorisé peut passer***
 - ​	***Faites corriger par l'enseignant !***
@@ -77,13 +77,13 @@ Pour chaque manipulation :
 
 Après cette section, vous serez capable sous Linux de:
 
-* configurer le routage
-* utiliser des variables dans des scripts
-* utiliser Systemd pour créer une unit avec démarrage automatique
+* configurer le routage.
+* utiliser des variables dans des scripts.
+* utiliser Systemd pour créer une unit avec démarrage automatique.
 
 ###   Configuration du routage
 
-Ci-dessous un rappel de commandes utilisée pour le routage IPv4.
+Ci-dessous un rappel de commandes utilisées pour le routage IPv4.
 
 Le principe est le même pour IPv6 !
 
@@ -111,6 +111,7 @@ up ip route add 192.168.55.0/24 via 192.168.1.254
 down ip route del 192.168.55.0/24 via 192.168.1.254
 ```
 
+#### Développement d'un calcul IP
 ```bash
 # ``man ipcalc
 #`` ipcalc 192.168.0.1/24 
@@ -184,7 +185,7 @@ Dans chaque binôme, un étudiant réalise l’ensemble des exercices sur la top
 
 Les exercices sont individuels sauf lorsqu’il faut communiquer avec les réseaux LAN d’un voisin de gauche ou droite.
 
-![image-20211020135755634](image-20211020135755634.png)
+![Schéma du labo](assets/images/schema-labo.png "Plan du réseau")
 
 #### Réseaux
 
@@ -194,12 +195,12 @@ X=2 pour les VMS de PC2
 
 - Lan1 : Lan des « clients »
   - 172.16.X.0/24
-  - Client live linux ou autre
+  - Client  linux ou autre
   - ip dynamique dhcp reçue du routeur/FW
   - réseaux interne intnet1
-- lan2 : Lan des « serveurs »
+- Lan2 : Lan des « serveurs »
   - 192.168.X.0/24
-  - Serveur Linux
+  - Serveurs Linux
   - ip statique 
   - réseaux interne intnet2
 - Lan entre PC1 et PC2 
@@ -210,22 +211,18 @@ X=2 pour les VMS de PC2
 - Iface
   - dhcp
   - intnet1
-- clients
-  - WWW
-  - FTP
-  - SSH
-  - DHCP
+
 
 #### Services
 
-- VM linux fw
-  - 3 ifaces
+- VM linux Firewall
+  - 3 interfaces
     - Type bridge  10.1.31.X(Mettre en statique l'IP reçue par le DHCP) vers le réseau extérieur
     - Réseau interne  		
       - Intnet1 pour le lan1 (172.16.X.254/24)
       - Intnet2 pour le lan2 (192.168.X.254/24)
   - services
-    - proxy
+    - Proxy
     - Dhcp + routeur
     - SSH
 - ​	Serveur
