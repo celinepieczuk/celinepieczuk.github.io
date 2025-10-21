@@ -185,7 +185,7 @@ Dans chaque binôme, un étudiant réalise l’ensemble des exercices sur la top
 
 Les exercices sont individuels sauf lorsqu’il faut communiquer avec les réseaux LAN d’un voisin de gauche ou droite.
 
-![Schéma du labo](assets/images/schema-labo.png "Plan du réseau")
+![Schéma du labo]({{ '/assets/images/schema-labo.png' | relative_url }})
 
 #### Réseaux
 
