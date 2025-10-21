@@ -2,6 +2,7 @@
 layout: page
 title: "Firewall Statefull"
 nav_order: 3
+permalink: /firewall-statefull/
 ---
 
 
