@@ -6,7 +6,7 @@
 
 /* ====== Base claire ====== */
 html, body {
-  background: #ffffff;         /* fond clair */
+  background: #ffffff;
   color: #2c3e50;
   line-height: 1.6;
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -14,18 +14,15 @@ html, body {
   padding: 0;
 }
 
-/* ====== Sidebar (colonne gauche) plus petite ====== */
+/* ====== Sidebar ====== */
 header {
-  width: 180px;                /* réduit (était plus large) */
+  width: 180px;
   padding: 1rem 1rem;
-  background: #f7f9fc;        /* léger contraste vs fond */
+  background: #f7f9fc;
   border-right: 1px solid #e2e8f0;
 }
 
-header h1, header h2 {
-  font-size: 1rem;
-  line-height: 1.25;
-}
+header h1, header h2 { font-size: 1rem; line-height: 1.25; }
 header p { margin-top: .5rem; }
 
 /* Masquer "View My GitHub Profile" */
@@ -33,10 +30,10 @@ header a[href*="github.com"] {
   display: none !important;
 }
 
-/* ====== Zone de contenu plus large ====== */
+/* ====== Zone de contenu ====== */
 .wrapper, .page-content {
-  max-width: 1200px;          /* élargi */
-  margin-left: 200px;         /* laisse la place à la sidebar (180 + un peu d’air) */
+  max-width: 1200px;   /* largeur globale */
+  margin-left: 200px;  /* laisse la place à la sidebar */
   padding: 2rem;
   background: #fff;
 }
@@ -63,24 +60,31 @@ table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: .95
 th, td { border: 1px solid #e2e8f0; padding: .6rem; text-align: left; }
 th { background: #edf2f7; }
 
-/* ====== Code clair (inline & blocs) ====== */
+/* ====== Code ====== */
 code {
-  background: #f6f8fa;        /* gris clair style GitHub */
-  color: #d12b69;             /* accent sobre */
+  background: #f6f8fa;
+  color: #d12b69;
   padding: .2rem .4rem;
   border-radius: 4px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: .9em;
 }
 
+/* Blocs de code multilignes */
 pre code {
   display: block;
-  background: #f6f8fa;        /* clair (au lieu de sombre) */
+  width: 100%;                /* occupe toute la largeur du conteneur */
+  background: #f6f8fa;
   color: #24292e;
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid #e1e4e8;
-  overflow-x: auto;
+
+  /* ✅ Voir tout le code sans coupure */
+  white-space: pre-wrap;       /* retour automatique à la ligne */
+  word-wrap: break-word;       /* coupe les longs mots si nécessaire */
+  overflow-x: auto;            /* garde un scroll horizontal si besoin */
+  box-sizing: border-box;
 }
 
 /* ====== Images ====== */
@@ -98,16 +102,15 @@ footer { text-align: center; margin: 2rem 0; font-size: .9rem; color: #718096; }
 /* ====== Responsive ====== */
 @media (max-width: 980px) {
   header {
-    width: auto;               /* la sidebar prend toute la largeur au-dessus */
+    width: auto;
     border-right: 0;
     border-bottom: 1px solid #e2e8f0;
   }
   .wrapper, .page-content {
-    margin-left: 0;            /* le contenu reprend toute la largeur */
+    margin-left: 0;
     padding: 1.25rem;
     max-width: 100%;
   }
   h1 { font-size: 1.9rem; }
   h2 { font-size: 1.35rem; }
 }
-
