@@ -21,6 +21,12 @@ header {
   border-right: 1px solid #e2e8f0;
 }
 
+/* Masquer le lien GitHub profile dans la sidebar */
+header a[href*="github.com"] {
+  display: none !important;
+}
+
+
 header h1, header h2, header a {
   font-size: 0.95rem;
 }
@@ -61,8 +67,27 @@ th, td { border: 1px solid #e2e8f0; padding: .6rem; text-align: left; }
 th { background: #edf2f7; }
 
 /* Code */
-code { background: #edf2f7; padding: .2rem .4rem; border-radius: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-pre code { display: block; background: #2d3748; color: #f7fafc; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+
+/* Code inline */
+code {
+  background: #f6f8fa;   /* gris clair GitHub-like */
+  color: #e83e8c;        /* couleur accent pour le texte inline */
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+/* Blocs de code */
+pre code {
+  display: block;
+  background: #f6f8fa;   /* fond clair au lieu du sombre */
+  color: #24292e;        /* texte foncé, lisible */
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+  overflow-x: auto;
+}
 
 /* Images */
 img { display: block; max-width: 100%; margin: 1rem auto; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,.15); }
