@@ -1,7 +1,6 @@
 ---
-layout: page
+layout: default
 title: "Chaînes personnalisées"
-nav_order: 4
 permalink: /chaines-personnalisees/
 ---
 
