@@ -1,11 +1,11 @@
 ---
-title: "Cours IPTables"
+title: "Sécurité des Réseaux - RT333 - Module II"
 permalink: /
 ---
 
-# 📘 Cours IPTables
+# 📘 Laboratoires de Sécurité des Réseaux Module II
 
-Bienvenue dans ce cours consacré à **iptables**.  
+Bienvenue sur le site consacré au Module II du cours RT333 - Sécurité des Réseaux.  
 Clique sur un chapitre pour y accéder :
 
 ---
@@ -23,7 +23,8 @@ Clique sur un chapitre pour y accéder :
 
 ## ℹ️ Informations
 
-- Test 
+- Les manipulations sont possibles depuis un seul PC mais il est possible de le faire à 2.
+- Les PDF des manipulations seront disponibles sur Moodle au fur et à mesure des laboratoires.
 
 ---
 
