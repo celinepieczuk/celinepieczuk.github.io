@@ -3,13 +3,14 @@ description: "Cours IPTables / Réseaux"
 url: "https://celinepieczuk.github.io"
 baseurl: ""
 
-# Thème Cayman intégré à GitHub Pages
 theme: jekyll-theme-cayman
+include:
+  - assets/css/custom.css
+
 
 markdown: kramdown
 highlighter: rouge
 
-# (facultatif) pour éviter les fichiers inutiles dans le site
 exclude:
   - README.md
   - Gemfile
