@@ -50,15 +50,35 @@ img { display: block; max-width: 100%; margin: 1rem auto; border-radius: 8px; bo
 footer { text-align: center; margin: 2rem 0; font-size: .9rem; color: #718096; }
 
 /* Dark mode auto */
+/* Dark mode auto */
 @media (prefers-color-scheme: dark) {
   html, body { background: #0f1720; color: #d7dde7; }
-  .wrapper, .page-content { background: #0b1220; box-shadow: 0 6px 18px rgba(0,0,0,.45); border: 1px solid #1f2a37; }
-  h1 { color: #9ec1ff; border-color: #1f2a37; }
-  h2 { color: #a8c3ff; }
+  .wrapper, .page-content { 
+    background: #0b1220; 
+    box-shadow: 0 6px 18px rgba(0,0,0,.45); 
+    border: 1px solid #1f2a37; 
+  }
+
+  /* Titres beaucoup plus clairs */
+  h1, h2, h3, h4 {
+    color: #e6f0ff;   /* quasi blanc avec un bleu très doux */
+  }
+  h1 { 
+    color: #f0f6ff;   /* encore plus lumineux pour le H1 */
+    border-color: #1f2a37; 
+  }
+  h2 { color: #c3d8ff; }
+  h3, h4 { color: #b5ccff; }
+
+  /* Liens */
   a { color: #8ab4ff; }
   a:hover { color: #a8c3ff; }
+
+  /* Tableaux */
   th { background: #111827; border-color: #1f2a37; }
   td { border-color: #1f2a37; }
+
+  /* Code */
   code { background: #17202a; }
   pre code { background: #0f1720; color: #e6edf3; }
 }
