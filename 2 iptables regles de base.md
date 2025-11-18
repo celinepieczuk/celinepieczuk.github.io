@@ -10,18 +10,18 @@ permalink: /regles-de-base/
 
 |                 |                                                              |
 | --------------- | ------------------------------------------------------------ |
-| **But**         | Découvrir la syntaxe de base d'Iptable et configurer les règles de base d'un firewall |
+| **But**         | - Découvrir la syntaxe de base d'Iptables et configurer les règles de base d'un firewall. |
 | **Objectifs**   | - Découvrir la syntaxe de base d'Iptables. <br />- Configurer les règles minimales d'un firewall. |
-| **Parties**     | -syntaxe de base<br />- Ajout de règles<br />                |
-| **Laboratoire** | - Firewall Iptable de base                                   |
+| **Parties**     | - Syntaxe de base<br />- Ajouts de règles<br />                |
+| **Laboratoire** | - Firewall Iptables de base                                   |
 
-## Section I : syntaxe de base
+## Section I : Syntaxe de base
 
 ### Objectifs de la section
 
 Après cette section, vous serez capable de:
 
-* utiliser la commande Iptable;
+* utiliser la commande Iptables;
 * utiliser l'aide.
 
 ### Aide
@@ -56,7 +56,7 @@ ACCEPT     udp  --  anywhere             anywhere             udp dpt:domain
 
 Compteurs de paquets[1](#sdfootnote1sym)
 
-Aussi pour optimiser les performances en mettant en 1er les règles qui traitent le plus de paquets:
+Cela est utile pour optimiser les performances en mettant en premières les règles qui traitent le plus de paquets:
 
 Lister les règles:
 
@@ -83,7 +83,7 @@ iptables -p tcp --help
 iptables -p -icmp -h
 ```
 
-## Section II : ajouts de règles
+## Section II : Ajouts de règles
 
 ### Objectifs de la section
 
@@ -98,12 +98,14 @@ Après cette section, vous serez capable de:
 Une règle est une ligne ajoutant un comportement au firewall sur base de critères de filtrage
 
 - Comportement : défini par une cible (target)
-  - log
+  - accept
   - drop
-  - etc.
+  - reject
+
 - ​	Critères :
   - adresse IP
   - protocole
+  - interfaces
   - etc.
 
 ### Règles d'Iptables
@@ -120,28 +122,10 @@ ex :
 iptables –A INPUT -p icmp -j ACCEPT
 ```
 
-#### Remplacement
-
-```bash
--R chaine n° logrègle (Cfr –line-numbers)
-```
-
-ex :
-
-```bash
-iptables –R 2 INPUT -p icmp --icmp-type echo-reply  -j ACCEPT 
-```
-
 #### Suppression
 
 ```bash
 -D chaîne [n° règle | règle]
-```
-
-#### Insertion
-
-```bash
--I chaîne [num] règle (pas num = 1 sous entendu)
 ```
 
 ### Remise à zéro d'Iptables
@@ -158,17 +142,9 @@ iptables [-t table] -F [chaîne]
 iptables -Z chaine
 ```
 
-### Stratégie par défaut
-
-```bash
-iptables -t table -P chaîne action (action : ACCEPT; DROP)
-ex :
-iptables -P chain DROP
-```
-
 ### Création d'une règle
 
-#### ajout d'une cibles
+#### Ajout d'une cible
 
 ```bash
 iptables -A <…> -j Target
@@ -178,14 +154,13 @@ iptables -A <…> -j Target
 
 ```bash
 -p protocol
--s source address
--d destination address
+-s adresse source
+-d adresse de destination
 -i input interface
 -o output interface 
--f fragmented
 ```
 
-#### utilisation des modules
+#### Utilisation des modules
 
 ```bash
 iptables -m module -...address
@@ -200,26 +175,26 @@ iptables -A INPUT -i eth1 -s 192.168.0.0/24 -j DROP
 iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j DROP
 ```
 
-Bloquer un réseau
+Bloquer tout trafic venant du réseau 192.168.0.0/24
 
 ```bash
 iptables -A INPUT -s 192.168.0.0/24 -j DROP
 ```
 
-autoriser en entrée le traffic web non chiffré sur une interface et une adresse IP précise
+Autoriser en entrée le trafic web non chiffré sur une interface et une adresse IP précise
 
 ```bash
 iptables -A INPUT -i eth1 -m tcp -p tcp -s 192.168.1.1 --dport 80 -j ACCEPT
 ```
 
-Logger des paquet avant de les détruire
+Logger des paquets avant de les détruire
 
 ```bash
 iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j LOG --log-prefix "IP_SPOOF A: "
 iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j DROP
 ```
 
-Accepter sur base d'une adresse mac
+Accepter sur base d'une adresse MAC
 
 ```bash
 iptables -A INPUT -m mac --mac-source 00:0F:EA:91:04:08 -j ACCEPT
@@ -237,11 +212,17 @@ Accepter que les paquets ICMP uniquement de type "demande de ping" traversent le
 iptables -A FORWARD -s 192.168.1.0/24 -d 176.16.1.0/16 -i eth0 -o eth1 -p icmp --icmp-type echo-request -j ACCEPT
 ```
 
+Accepter l'accès en SSH et Telnet venant du LAN vers le Routeur.
+
+```bash
+iptables -A INPUT -s 192.168.1.0/24 -p tcp -m multiport --dport 22,23 -j ACCEPT
+```
+
 ### Exercice dirigé
 
-Vous pouvez soit travailler directement dans la CLI ou créer des scripts bash.
+A ce niveau, vous pouvez soit travailler directement dans la CLI ou déjà créer des scripts bash.
 
-Listez les règles d'Iptables de manière détaillée et en affichant les n° de port au format numérique et les n° des règles. Utilisez une boucle pour afficher les tables filter et nat.
+Listez les règles d'Iptables de manière détaillée et en affichant les n° de port au format numérique. Utilisez une boucle pour afficher les tables filter et nat.
 
 ```bash
 for i in filter nat raw
@@ -267,39 +248,14 @@ iptables -A INPUT -s 192.168.1.1 -j DROP
 iptables -t filter -L INPUT
 ```
 
-Insérez une règle après la règle une
-
-```bash
-iptables -I INPUT 2 -s 192.168.1.2 -j DROP
-iptables -L INPUT -n --line-numbers
-```
 
 > Remarquez bien que les règles n'autorisent ou ne bloquent le trafic dans un seul sens. Le trafic "retour" n'est pas pris en compte!
 
-Supprimez la 1ere règle sur base de son numéro. La n°2 devient la n°1. Supprimez la sur base de son "contenu"
-
-```bash
-iptables -L --line-numbers
-iptables -D INPUT 1
-iptables -L --line-numbers
-iptables -D INPUT -s 192.168.1.2 -j DROP
-iptables -L --line-numbers
-```
-
-A l'aide d'une boucle, choisissez la bonne stratégie par défaut
-
-```bash
-for j in INPUT OUTPUT FORWARD
-do
-iptables -P $j DROP
-done
-```
-
-Ajoutez quelques règles. Utilisez une boucle pour supprimer les règle des tables nat, mangle et filter.
+Ajoutez quelques règles permettant de passer tout le trafic entre votre LAN et votre Serveur. Utilisez une boucle pour supprimer les règles des tables nat, mangle et filter.
 
 ```bash
 iptables -A INPUT -s 192.168.1.1 -j DROP
-iptables -I INPUT 2 -s 192.168.1.2 -j DROP
+iptables -A INPUT -s 192.168.1.2 -j DROP
 
 iptables -L
 
@@ -311,7 +267,7 @@ done
 iptables -L
 ```
 
-## Laboratoire :  réaliser un script de firewall minimal avec emploi de variables
+## Laboratoire :  réaliser un script de firewall minimal avec l'emploi de variables
 
 ### Firewall local avec les règle de bases
 
@@ -319,8 +275,13 @@ Configurez le firewall en respectant les demandes ci-dessous :
 
 1. Démarrage automatique par systemd.
 2. Emploi de variables pour les IP's, interfaces, etc.
-3. Remet à blanc iptables (R à z tables et compteurs).
-4. Le script affiche les règles pour l'ensemble des tables avec les compteurs de paquets.
+3. Remise à zéro des tables et flush de toutes les règles.
+4. Créez les règles suivantes :
+  - Appliquer la règle par défaut.
+  - Refuser le ping entre votre Serveur et votre LAN.
+  - Autoriser le trafic entrant pour votre interface Loopback
+  - Autoriser l'accès à votre site web (HTTP), l'accès SSH et l'accès à votre serveur FTP depuis votre LAN **EN UNE REGLE POUR LE TRAFIC ENTRANT ET UNE REGLE POUR LE TRAFIC SORTANT**.
+6. Le script affiche les règles pour l'ensemble des tables avec les compteurs de paquets.
 
 > Pour ce laboratoire comme pour les suivants, gardez une copie du script pour réviser et une comme base pour le laboratoire de la partie suivante.
 
@@ -330,7 +291,7 @@ Au cours de ce chapitre, vous avez appris :
 
 * gérer les règles d'un firewall Iptables
 * écrire un script de firewall Iptables qui sera démarré automatiquement.
-* Créer les règles d'un Firewall 
+* Créer les règles de base d'un Firewall.
 
 
 
