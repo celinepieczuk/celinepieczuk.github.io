@@ -212,7 +212,7 @@ Accepter que les paquets ICMP uniquement de type "demande de ping" traversent le
 iptables -A FORWARD -s 192.168.1.0/24 -d 176.16.1.0/16 -i eth0 -o eth1 -p icmp --icmp-type echo-request -j ACCEPT
 ```
 
-Accepter l'accès en SSH et Telnet venant du LAN vers le Routeur.
+Accepter le trafic entrant des protocoles SSH et Telnet venant du LAN vers le Routeur.
 
 ```bash
 iptables -A INPUT -s 192.168.1.0/24 -p tcp -m multiport --dport 22,23 -j ACCEPT
