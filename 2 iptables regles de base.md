@@ -280,7 +280,8 @@ Configurez le firewall en respectant les demandes ci-dessous :
   - Appliquer la règle par défaut.
   - Refuser le ping entre votre Serveur et votre LAN.
   - Autoriser le trafic entrant pour votre interface Loopback
-  - Autoriser l'accès à votre site web (HTTP), l'accès SSH et l'accès à votre serveur FTP depuis votre LAN **EN UNE REGLE POUR LE TRAFIC ENTRANT ET UNE REGLE POUR LE TRAFIC SORTANT**.
+  - Autoriser l'accès à votre site web (HTTP), l'accès SSH et l'accès à votre serveur FTP depuis votre LAN **EN UNE REGLE**.
+  - Autoriser l'accès SSH pour accéder à votre Firewall depuis votre PC physique.
 6. Le script affiche les règles pour l'ensemble des tables avec les compteurs de paquets.
 
 > Pour ce laboratoire comme pour les suivants, gardez une copie du script pour réviser et une comme base pour le laboratoire de la partie suivante.
