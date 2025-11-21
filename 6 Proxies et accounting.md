@@ -56,7 +56,8 @@ Dans le répertoire /etc/squid, vous aurez un fichier squid.conf déjà présent
 http_port 3128 (1)
 visible_hostname firewall-proxy (2)
 ```
-(1)Squid va écouter sur le port 3128 pour le trafic web. (2) On peut lui donner un nom interne que l'on pourra retrouver dans les messages d'erreurs et dans les logs.
+(1) Squid va écouter sur le port 3128 pour le trafic web. 
+(2) On peut lui donner un nom interne que l'on pourra retrouver dans les messages d'erreurs et dans les logs.
 ```bash
 acl localnet src 192.168.2.0/24 (3)
 ```
@@ -66,36 +67,36 @@ acl SSL_ports port 443 (4)
 acl Safe_ports port 80 443 1025-65535 (5)
 acl CONNECT method CONNECT (6)
 ```
-(4) On y définit quels ports sont autorisés pour les connexions HTTPS
-(5) On y liste les ports dit 'safe', cela évite que le proxy soit utilisé par un attaquant sur d'autres ports (FTP,SMTP,...)
-(6) On précise la méthode CONNECT afin de contrôler la gestion des tunnels HTTPS
+(4) On y définit quels ports sont autorisés pour les connexions HTTPS.
+(5) On y liste les ports dit 'safe', cela évite que le proxy soit utilisé par un attaquant sur d'autres ports (FTP,SMTP,...).
+(6) On précise la méthode CONNECT afin de contrôler la gestion des tunnels HTTPS.
 ```bash
 http_access deny !Safe_ports (7)
 http_access deny CONNECT !SSL_ports (8)
 ```
 /!\ L’ordre est crucial dans Squid : Squid lit de haut en bas, la première règle qui matche gagne.
-(7) On refuse tout trafic qui vise un port qui n'est pas Safe_ports
-(8) On refuse toute tentative de CONNECT vers un port autre que le 443
+(7) On refuse tout trafic qui vise un port qui n'est pas Safe_ports.
+(8) On refuse toute tentative de CONNECT vers un port autre que le 443.
 ```bash
 acl blacklist dstdomain youtube.com youtu.be ytimg.com googlevideo.com (9)
 http_access deny blacklist (10)
 ```
-(9) On liste les différents domaines de YouTube (par exemple) dans une ACL nommée blacklist
-(10) On bloque immédiatement toute tentative de requête vers ces domaines
+(9) On liste les différents domaines de YouTube (par exemple) dans une ACL nommée blacklist.
+(10) On bloque immédiatement toute tentative de requête vers ces domaines.
 ```bash
 http_access allow localnet (11)
 http_access deny all (12)
 ```
-(11) Tout client venant du LAN précisé en (3) est autorisé si aucune règle précédente ne l'a bloqué
-(12) Tout le reste est refusé
+(11) Tout client venant du LAN précisé en (3) est autorisé si aucune règle précédente ne l'a bloqué.
+(12) Tout le reste est refusé.
 ```bash
 access_log /var/log/squid/access.log (13)
 cache_log /var/log/squid/cache.log (14)
 cache deny all (15)
 ```
 (13) Création et gestion du journal des connexions des clients. On y retrouve qui a été sur quel site,...
-(14) Création et gestion du journal du fonctionnement interne de Squid (erreurs, démarrage,...)
-(15) Désactivation du cache pour éviter des surprises liées à du contenu déjà gardés en cache. Si vous n'avez pas utilisé le navigateur jusqu'à maintenant, vous n'êtes pas obligé de l'inscrire dans le fichier de configuration
+(14) Création et gestion du journal du fonctionnement interne de Squid (erreurs, démarrage,...).
+(15) Désactivation du cache pour éviter des surprises liées à du contenu déjà gardés en cache. Si vous n'avez pas utilisé le navigateur jusqu'à maintenant, vous n'êtes pas obligé de l'inscrire dans le fichier de configuration.
 
 
 ### Vérification de la configuration complète
