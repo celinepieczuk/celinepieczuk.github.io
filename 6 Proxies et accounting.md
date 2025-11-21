@@ -62,23 +62,23 @@ Je vous conseille de le copier en `squid.sav` et de supprimer le fichier `squid.
 Il est plus rapide de créer nous-même un nouveau fichier de configuration car celui par défaut est très long et complet.
 
 ```conf
-http_port 3128
-visible_hostname firewall-proxy
+http_port 3128 (1)
+visible_hostname firewall-proxy (2)
 ```
 
 - <span style="color:#e67e22;font-weight:600">(1)</span> Squid va écouter sur le port 3128 pour le trafic web.  
 - <span style="color:#e67e22;font-weight:600">(2)</span> On peut lui donner un nom interne que l'on pourra retrouver dans les messages d'erreurs et dans les logs.
 
 ```conf
-acl localnet src 192.168.2.0/24
+acl localnet src 192.168.2.0/24 (3)
 ```
 
 - <span style="color:#e67e22;font-weight:600">(3)</span> On crée une ACL permettant au réseau précisé d'utiliser le proxy.
 
 ```conf
-acl SSL_ports port 443
-acl Safe_ports port 80 443 1025-65535
-acl CONNECT method CONNECT
+acl SSL_ports port 443 (4)
+acl Safe_ports port 80 443 1025-65535 (5)
+acl CONNECT method CONNECT (6)
 ```
 
 - <span style="color:#e67e22;font-weight:600">(4)</span> On y définit quels ports sont autorisés pour les connexions HTTPS.  
@@ -86,8 +86,8 @@ acl CONNECT method CONNECT
 - <span style="color:#e67e22;font-weight:600">(6)</span> On précise la méthode CONNECT afin de contrôler la gestion des tunnels HTTPS.
 
 ```conf
-http_access deny !Safe_ports
-http_access deny CONNECT !SSL_ports
+http_access deny !Safe_ports (7)
+http_access deny CONNECT !SSL_ports (8)
 ```
 
 > /!\ L’ordre est crucial dans Squid : Squid lit de haut en bas, la première règle qui matche gagne.
@@ -96,25 +96,25 @@ http_access deny CONNECT !SSL_ports
 - <span style="color:#e67e22;font-weight:600">(8)</span> On refuse toute tentative de CONNECT vers un port autre que le 443.
 
 ```conf
-acl blacklist dstdomain youtube.com youtu.be ytimg.com googlevideo.com
-http_access deny blacklist
+acl blacklist dstdomain youtube.com youtu.be ytimg.com googlevideo.com (9)
+http_access deny blacklist (10)
 ```
 
 - <span style="color:#e67e22;font-weight:600">(9)</span> On liste les différents domaines de YouTube (par exemple) dans une ACL nommée blacklist.  
 - <span style="color:#e67e22;font-weight:600">(10)</span> On bloque immédiatement toute tentative de requête vers ces domaines.
 
 ```conf
-http_access allow localnet
-http_access deny all
+http_access allow localnet (11)
+http_access deny all (12)
 ```
 
 - <span style="color:#e67e22;font-weight:600">(11)</span> Tout client venant du LAN précisé en (3) est autorisé si aucune règle précédente ne l'a bloqué.  
 - <span style="color:#e67e22;font-weight:600">(12)</span> Tout le reste est refusé.
 
 ```conf
-access_log /var/log/squid/access.log
-cache_log /var/log/squid/cache.log
-cache deny all
+access_log /var/log/squid/access.log (13)
+cache_log /var/log/squid/cache.log (14)
+cache deny all (14)
 ```
 
 - <span style="color:#e67e22;font-weight:600">(13)</span> Création et gestion du journal des connexions des clients. On y retrouve qui a été sur quel site, ...  
