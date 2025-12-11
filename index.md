@@ -19,7 +19,6 @@ Clique sur un chapitre pour y accéder :
 3. [Proxy Squid]({{ '/proxy-squid/' | relative_url }})
 4. [Firewall stateful]({{ '/firewall-statefull/' | relative_url }})
 5. [Caneva de script]({{ '/caneva-script/' | relative_url }})
-6. [NAT]({{ '/nat/' | relative_url }})
 
 
 ---
