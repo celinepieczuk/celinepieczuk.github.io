@@ -131,37 +131,98 @@ iptables -A INPUT -s IpDuLan -i CarteDuLan -d IpAutreLan -o CarteAutreLan -m tcp
 
 N'oubliez pas de vérifier que tout est bloqué sauf ce qui est autorisé, ici à l'aide de la commande `iptable -L` et de `ping` depuis la loopback et une autre IP.
 
-### Précisions pour le NAT
-* En plus de configurer le NAT, n'oubliez pas de configurer la table FILTER pour autoriser le trafic !
-* Le NAT traite uniquement le 1er paquet, les paquets suivants seront traités grâce au suivi de connexion (connection tracking).
 
-### SNAT
-Le SNAT modifie l'adresse IP source. Cela permet de donner l'accès réseau à des hôtes pour lesquels il n'existe pas de route.
+### 1.2 NAT : principe général
 
-#### NAT statique
+**NAT (Network Address Translation)** modifie les adresses IP (et éventuellement les ports) des paquets qui traversent un routeur ou un firewall.
+
+Objectifs typiques :
+
+- masquer un réseau privé derrière une adresse publique ;
+- publier un serveur interne vers l’extérieur ;
+- rediriger ou intercepter certains flux (proxy, filtrage, etc.) ;
+- gérer plusieurs réseaux avec des plages d’adresses qui se chevauchent.
+
+Le NAT s’applique dans la table `nat` d’iptables, principalement sur les chaînes :
+
+- `PREROUTING` : avant la décision de routage (pour du DNAT / REDIRECT) ;
+- `POSTROUTING` : après la décision de routage (pour du SNAT / MASQUERADE) ;
+- `OUTPUT` : pour certains paquets générés localement.
+
+Le NAT fonctionne **avec le connection tracking** :
+
+- le noyau garde une table de correspondance entre les flux originaux et traduits ;
+- cela permet de réécrire correctement les paquets dans les deux sens (aller / retour).
+
+### 1.3 SNAT & NAT statique
+
+**SNAT (Source NAT)** : on modifie l’**adresse source** du paquet.
+
+Cas typique :  
+Un LAN privé sort vers Internet via une seule IP publique. L’IP source privée (ex : `10.0.0.10`) est remplacée par une IP publique (ex : `203.0.113.10`).
+
+Exemple :
 
 ```bash
-iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j SNAT --to-source 1.2.3.4
+iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 203.0.113.10
 ```
-#### NAT dynamique
-Ne combinez jamais MASQUERADE et SNAT.
+### 1.4 NAT dynamique & MASQUERADE
+
+Dans le **NAT dynamique**, plusieurs machines d’un réseau privé partagent **une ou plusieurs adresses publiques**.  
+Les ports peuvent être réécrits de manière flexible afin de permettre la coexistence de plusieurs connexions simultanées.
+
+La forme la plus courante de NAT dynamique sous Linux est la cible **`MASQUERADE`**, qui est une variante de `SNAT`.  
+Elle est généralement utilisée lorsque l’adresse IP de l’interface de sortie est **dynamique** (par exemple obtenue via DHCP).
+
+Exemple :
 
 ```bash
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 ```
+### 1.5 DNAT & publication de services
 
-### DNAT
-Le DNAT modifie l'adresse IP de destination.
+**DNAT (Destination NAT)** : le DNAT modifie l’**adresse de destination** (et éventuellement le port) d’un paquet.
+
+C’est typiquement utilisé pour :
+
+- publier un serveur interne sur Internet ;
+- rediriger un service vers un autre hôte ;
+- faire passer un service situé derrière le firewall pour un service “exposé” sur l’IP publique.
+
+#### Exemple : publication d’un serveur web interne
 
 ```bash
-iptables -t nat -A PREROUTING -j DNAT --to-destination [<ipaddr>[-<ipaddr>]][:port[-port[/port]]]
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination 10.0.0.10:80
 ```
-### REDIRECT
+### 1.6 REDIRECT
 
-Si vous voulez rediriger un trafic réseau vers un processus local, vous pouvez utiliser REDIRECT.
+**Définition**
+
+- `REDIRECT` est une cible de la table `nat`.
+- C’est un cas particulier de **DNAT** où la destination est modifiée pour pointer vers **la machine locale** (le firewall lui-même).
+- On peut aussi changer le port de destination.
+
+**Utilisation typique**
+
+- Rediriger le trafic vers un **proxy transparent** (HTTP, par exemple).
+- Intercepter un service pour le filtrer, le journaliser ou l’analyser.
+- Forcer l’utilisation d’un service local (proxy, cache, etc.) sans configurer les clients.
+
+**Fonctionnement**
+
+- Le paquet arrive avec :
+  - une destination : `IP_firewall:port_original`,
+  - un port attendu (ex. 80 pour HTTP).
+- La règle `REDIRECT` réécrit la destination vers :
+  - `IP_firewall` (l’adresse locale),
+  - un autre port (ex. 8080 pour un proxy).
+- Le **connection tracking** assure ensuite le suivi de la connexion et la réécriture correcte des paquets retour.
+
+**Exemple : proxy HTTP transparent**
 
 ```bash
-iptables -t nat -A PREROUTING -j iptables -t nat -A PREROUTING -j REDIRECT --to-ports <port>[-<port>]
+# Rediriger tout le trafic HTTP entrant sur eth0 vers un proxy local en 8080
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-ports 8080
 ```
 
 ### Exercice dirigé
@@ -179,7 +240,11 @@ iptables -A PREROUTING -t nat -p tcp --dport 80 -i eth4 -s XXXX -j REDIRECT --to
 Remarquez les règles de la table forward nécessaires n'ont pas été précisée!
 
 
-## Laboratoire :  réaliser un script de firewall statefull
+### Précisions pour le NAT
+* En plus de configurer le NAT, n'oubliez pas de configurer la table FILTER pour autoriser le trafic !
+* Le NAT traite uniquement le 1er paquet, les paquets suivants seront traités grâce au suivi de connexion (connection tracking).
+
+## 2. Laboratoire :  réaliser un script de firewall statefull
 
 ### Firewall de type Filtering
 
