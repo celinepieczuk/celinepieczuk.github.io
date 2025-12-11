@@ -18,30 +18,79 @@ permalink: /firewall-statefull/
 
 ## Section I : Firewall statefull
 
-### Objectifs de la section
+**But**  
+Configurer un pare-feu *stateful* avec `iptables` en s’appuyant sur le *connection tracking* et les différentes formes de NAT.
 
-Après cette section, vous serez capable de:
+**Objectifs**
 
-* Mettre en place un firewall statefull
-* Donner un accès à Internet à vos LAN
-* Faire une redirection du trafic vers un processus interne avec du DNAT
+- Comprendre le fonctionnement du connection tracking.
+- Comprendre le NAT : SNAT, DNAT, NAT statique, NAT dynamique, REDIRECT.
+- Mettre en place des règles `iptables` utilisant le connection tracking et le NAT.
+- Écrire un script de firewall stateful réutilisable et maintenable.
+- Intégrer le tout dans un environnement local et réseau (LAN1, LAN2, voisins).
 
-### Connection tracking
+**Plan**
 
-Le module state permet de mettre en place le connection tracking. Une connection peut se trouver dans différents états:
+- Rappels théoriques : connection tracking & NAT
+- Firewall stateful : mise en pratique
+- Modules & helpers
+- Laboratoire : firewall local
+- Laboratoire : firewall réseau
+- Synthèse
 
-* `NEW` : 1er paquet de la connexion
-* `ESTABLISHED` : paquets suivants de la connexion
-* `RELATED`: paquets en relation avec la connexion
-* `INVALID` : paquets dont l'état n'as pas pu être déterminé
+---
 
-Dans un premier temps, le plus simple est d'autoriser toutes les sessions qui sont déjà établies ou reliée à une session déjà existante. En production, nous pourrions être plus précis. 
+## 1. Rappels théoriques
+
+### 1.1 Connection tracking : principe
+
+Un firewall *stateless* se contente de regarder chaque paquet individuellement, sans se souvenir du passé.  
+Un firewall *stateful* garde en mémoire l’état des connexions. C’est le rôle du **connection tracking** (`conntrack`).
+
+Le *connection tracking* :
+
+- observe les paquets qui traversent le noyau,
+- identifie des *flux* (basés sur le fameux 5-tuple : IP source, IP destination, port source, port destination, protocole),
+- attribue à chaque flux un **état** (NEW, ESTABLISHED, RELATED, INVALID),
+- met à jour ces états au fil des paquets,
+- stocke ces informations dans une table interne au noyau.
+
+#### États principaux
+
+- `NEW`  
+  Premier paquet d’une nouvelle connexion (exemple : SYN pour TCP, première requête UDP).
+
+- `ESTABLISHED`  
+  Paquet qui appartient à une connexion déjà connue du noyau (flux déjà vu et validé).
+
+- `RELATED`  
+  Paquet lié à une connexion existante, mais dans un canal séparé.  
+  Exemple typique :  
+  - FTP actif ou passif (un flux de données lié au flux de contrôle),  
+  - certaines réponses ICMP (erreur liée à une session existante),  
+  - protocoles multi-flux (SIP, H.323…).
+
+- `INVALID`  
+  Paquet pour lequel le noyau ne parvient pas à déterminer d’état cohérent :  
+  - paquet mal formé,  
+  - fragment isolé,  
+  - paquet arrivant sans qu’on ait vu l’initiation de la connexion, etc.
+
+En pratique, un firewall stateful :
+
+- **autorise** facilement le trafic dans le sens retour (`ESTABLISHED,RELATED`),
+- **filtre** principalement le trafic initiateur (`NEW`),
+- **rejette** ou loggue les paquets `INVALID`.
+
+#### Exemple d’utilisation dans iptables
 
 ```bash
-for j in INPUT OUTPUT FORWARD
+# Politique par défaut bloquante
+for chain in INPUT OUTPUT FORWARD
 do
-iptables -P $j DROP
-iptables -A $j -m state --state ESTABLISHED,RELATED -j ACCEPT
+    iptables -P "$chain" DROP
+    # Autorise les paquets de connexions déjà établies ou liées
+    iptables -A "$chain" -m state --state ESTABLISHED,RELATED -j ACCEPT
 done
 ```
 
@@ -49,8 +98,7 @@ done
 
 Créez un script bash de firewall qui à l'aide de boucles bash:
 
-* remet le fw à zéro pour les tables nat et filter,
-* applique la bonne stratégie par défaut,
+* remet le fw à zéro pour les tables nat et filter
 * active le connection tracking afin d'avoir un firewall statefull
 
 ```bash
@@ -60,7 +108,6 @@ iptables -t $i -F
 done
 for j in INPUT OUTPUT FORWARD
 do
-iptables -P $j DROP
 iptables -A $j -m state --state ESTABLISHED,RELATED -j ACCEPT
 done
 ```
