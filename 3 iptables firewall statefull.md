@@ -94,7 +94,7 @@ Le SNAT modifie l'adresse IP source. Cela permet de donner l'accès réseau à d
 #### NAT statique
 
 ```bash
-
+iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j SNAT --to-source 1.2.3.4
 ```
 #### NAT dynamique
 Ne combinez jamais MASQUERADE et SNAT.
