@@ -1,11 +1,11 @@
 ---
 layout: default
-title: "Firewall Statefull"
+title: "Firewall Statefull + NAT"
 permalink: /firewall-statefull/
 ---
 
 
-# Firewall statefull
+# Firewall statefull + NAT
 
 ## Résumé
 
@@ -22,7 +22,9 @@ permalink: /firewall-statefull/
 
 Après cette section, vous serez capable de:
 
-* mettre en place un firewall statefull
+* Mettre en place un firewall statefull
+* Donner un accès à Internet à vos LAN
+* Faire une redirection du trafic vers un processus interne avec du DNAT
 
 ### Connection tracking
 
@@ -82,52 +84,57 @@ iptables -A INPUT -s IpDuLan -i CarteDuLan -d IpAutreLan -o CarteAutreLan -m tcp
 
 N'oubliez pas de vérifier que tout est bloqué sauf ce qui est autorisé, ici à l'aide de la commande `iptable -L` et de `ping` depuis la loopback et une autre IP.
 
-## Section II : Modules et helpers
+### Précisions pour le NAT
+* En plus de configurer le NAT, n'oubliez pas de configurer la table FILTER pour autoriser le trafic !
+* Le NAT traite uniquement le 1er paquet, les paquets suivants seront traités grâce au suivi de connexion (connection tracking).
 
-### Objectifs de la section
+### SNAT
+Le SNAT modifie l'adresse IP source. Cela permet de donner l'accès réseau à des hôtes pour lesquels il n'existe pas de route.
 
-Pour des protocoles particuliers:
-
-* Utiliser les modules
-* Configurer les règles
-* Activer les helpers
-
-### Les modules
-
-L'emploi de modules explicites est obligatoires pour certains protocoles, afin que le firewall puisse les interpréter et exploiter le connection tracking afin de les gérer.
-
-Dans certains cas, il faudra d'abord charger le module kernel (pour le filtrage ou le NAT ) avec `modprobe`.
-
-Si la bersion du kernel est 2.6.19 ou antérieure, les modules se nomment `ip_conntrack_...` ou `ip_nat...`. Sinon ce sera `nf_conntrack...` ou `nf_nat_...`
+#### NAT statique
 
 ```bash
-uname -r
-5.15.0-52-generic
 
-lsmod | grep sip
-
-modprobe nf_conntrack_sip nf_nat_sip
-
-lsmod | grep sip
-...
-nf_nat_sip
-nf_conntrack_sip
-...
 ```
-
-Une fois ces modules chargé, une configuration correcte du connexion tracking permettra le support de ces protocoles (sessions "`related`") pour le filtrage ou le NAT.
-
-### Les helpers
-
-Depuis le kernel 4.7, les helpers ne sont plus activés par défaut sur les sessions. Il faut désormais passer des règles qui utilisent la cible `CT` dans la chaîne `PREROUTING` de la table `raw` .
+#### NAT dynamique
+Ne combinez jamais MASQUERADE et SNAT.
 
 ```bash
-iptables -A PREROUTING -t raw …… -j CT --helper sip
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ```
+
+### DNAT
+Le DNAT modifie l'adresse IP de destination.
+
+```bash
+iptables -t nat -A PREROUTING -j DNAT --to-destination [<ipaddr>[-<ipaddr>]][:port[-port[/port]]]
+```
+### REDIRECT
+
+Si vous voulez rediriger un trafic réseau vers un processus local, vous pouvez utiliser REDIRECT.
+
+```bash
+iptables -t nat -A PREROUTING -j iptables -t nat -A PREROUTING -j REDIRECT --to-ports <port>[-<port>]
+```
+
+### Exercice dirigé
+
+Que font les règles suivantes?
+
+```bash
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT –to-source 10.1.1.1
+iptables -t nat -A POSTROUTING -p tcp -o eth1 -j SNAT --to-source 10.1.1.1-10.1.1.20:1024-32000
+iptables -t nat -A POSTROUTING -o eth3 -j MASQUERADE
+iptables -t nat -A PREROUTING -p tcp -d 15.45.23.67 --dport 80 -j DNAT --to-destination 192.168.1.1-192.168.1.10
+iptables -A PREROUTING -t nat -p tcp --dport 80 -i eth4 -s XXXX -j REDIRECT --to-port 3128
+```
+
+Remarquez les règles de la table forward nécessaires n'ont pas été précisée!
+
 
 ## Laboratoire :  réaliser un script de firewall statefull
 
-### Firewall local
+### Firewall de type Filtering
 
 A partir du laboratoire précédent, créez un script de firewall qui respecte les demandes ci-dessous.
 
@@ -137,51 +144,25 @@ A partir du laboratoire précédent, créez un script de firewall qui respecte l
 4. Remise à blanc iptables (R à z table**s**, compteurs, etc.).
 5. Autoriser le trafic local (depuis votre IP et la loopback) du fw.
 6. Accepter les requêtes DHCP pour le firewall.
-7. Autoriser de pinger « le monde » depuis le routeur, mais pas le contraire.
 8. Autoriser ping vers le fw depuis le lan1.
 9. Afficher les règles pour l'ensemble des tables avec les compteurs de paquets.
 
-### Firewall réseau
-
 Faites une copie de sauvegarde du script précédent et modifiez-le en ajoutant :
 
-1. Le routage est pris en charge par le script et non plus par la configuration du réseau. 
-2. Lors de l'arrêt par systemd, les routes sont supprimées.
-3. Autoriser ping depuis lan1 vers lan2.
-4. Autoriser l'administration des machines du lan2 depuis le lan1 (ssh).
-5. Autoriser au firewall d'être administréLes par la machine du lan2  .
-6. Autoriser l'accès au web (surfer) au lan1 et 2 en un minimum de lignes.
-7. Autoriser l'impression sur 10.1.31.250 depuis le lan 1. Simulez en choisissant un protocole d'impression au choix.
+10. Le routage est pris en charge par le script et non plus par la configuration du réseau. 
+11. Lors de l'arrêt par systemd, les routes sont supprimées.
+12. Autoriser ping depuis lan1 vers lan2.
+13. Autoriser l'administration des machines du lan2 depuis le lan1 (ssh).
+14. Autoriser au firewall d'être administréLes par la machine du lan2  .
+15. Autoriser l'accès au web (surfer) au lan1 et 2 en un minimum de lignes.
 
-À partir des règles demandées ci-dessus, est-il possible pour le PC client d'accéder au réseau externe, à Internet ou à l'imprimante? Pourquoi ?
+### Firewall Statefull + NAT
+16. Faites en sorte d'avoir l'accès à Internet aux clients.
+17. Faites en sorte que votre serveur web soit accessible depuis le réseau extérieur (celui de l'école) via le port par défaut.
+18. Modifiez la précédente règle afin que votre site web soit disponible via un autre port (non utilisé par un protocole).
 
-### Firewall avec l'emploi de helpers et réseau avec plusieurs firewalls
 
-Modifiez les scripts précédents après avoir réalisé une copie:
 
-1.  Ajoutez les routes statiques vers les lan 1 et 2 de votre voisin si ce n'est pas déjà fait.
-
-2. Autorisez le trafic courriel
-
-   1. les services sont dans le lan2
-   2. Les clients sont dans le LAN1
-   3. protocoles : SMTP, IMAP, POP
-
-   > N'oubliez pas que vos règles doivent permettre d'envoyer et recevoir des courriels du "monde extérieur"
-
-3. ​	Votre firewall est administrable par le firewall de votre voisin [1](#sdfootnote1sym)
-
-4. ​	L'hôte de **votre** lan2 est joignable par le lan1 du **voisin** en ftp **passif et actif**. 
-
-Pourquoi une seule ligne pour ftp (avec le port 21) est-elle suffisante ?
-
-## Synthèse
-
-Au cours de ce chapitre, vous avez appris : 
-
-* gérer les règles d'un firewall Iptables;
-* écrire un script de firewall Iptables statefull qui sera démarré automatiquement;
-* créer les règles d'un Firewall statefull qui utilise des protocoles particuliers et des helpers.
 
 [1](#sdfootnote1anc) Ne pas oublier d'autoriser votre firewall a administrer votre voisin de droite !
 
