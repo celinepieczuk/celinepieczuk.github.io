@@ -29,15 +29,6 @@ Configurer un pare-feu *stateful* avec `iptables` en s’appuyant sur le *connec
 - Écrire un script de firewall stateful réutilisable et maintenable.
 - Intégrer le tout dans un environnement local et réseau (LAN1, LAN2, voisins).
 
-**Plan**
-
-- Rappels théoriques : connection tracking & NAT
-- Firewall stateful : mise en pratique
-- Modules & helpers
-- Laboratoire : firewall local
-- Laboratoire : firewall réseau
-- Synthèse
-
 ---
 
 ## 1. Rappels théoriques
@@ -51,7 +42,7 @@ Le *connection tracking* :
 
 - observe les paquets qui traversent le noyau,
 - identifie des *flux* (basés sur le fameux 5-tuple : IP source, IP destination, port source, port destination, protocole),
-- attribue à chaque flux un **état** (NEW, ESTABLISHED, RELATED, INVALID),
+- attribue à chaque flux un état (NEW, ESTABLISHED, RELATED, INVALID),
 - met à jour ces états au fil des paquets,
 - stocke ces informations dans une table interne au noyau.
 
@@ -134,7 +125,7 @@ N'oubliez pas de vérifier que tout est bloqué sauf ce qui est autorisé, ici �
 
 ### 1.2 NAT : principe général
 
-**NAT (Network Address Translation)** modifie les adresses IP (et éventuellement les ports) des paquets qui traversent un routeur ou un firewall.
+NAT (Network Address Translation) modifie les adresses IP (et éventuellement les ports) des paquets qui traversent un routeur ou un firewall.
 
 Objectifs typiques :
 
@@ -156,7 +147,7 @@ Le NAT fonctionne **avec le connection tracking** :
 
 ### 1.3 SNAT & NAT statique
 
-**SNAT (Source NAT)** : on modifie l’**adresse source** du paquet.
+SNAT (Source NAT) : on modifie l’adresse source du paquet.
 
 Cas typique :  
 Un LAN privé sort vers Internet via une seule IP publique. L’IP source privée (ex : `10.0.0.10`) est remplacée par une IP publique (ex : `203.0.113.10`).
@@ -168,10 +159,10 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 203.0.
 ```
 ### 1.4 NAT dynamique & MASQUERADE
 
-Dans le **NAT dynamique**, plusieurs machines d’un réseau privé partagent **une ou plusieurs adresses publiques**.  
+Dans le NAT dynamique, plusieurs machines d’un réseau privé partagent une ou plusieurs adresses publiques.  
 Les ports peuvent être réécrits de manière flexible afin de permettre la coexistence de plusieurs connexions simultanées.
 
-La forme la plus courante de NAT dynamique sous Linux est la cible **`MASQUERADE`**, qui est une variante de `SNAT`.  
+La forme la plus courante de NAT dynamique sous Linux est la cible `MASQUERADE`, qui est une variante de `SNAT`.  
 Elle est généralement utilisée lorsque l’adresse IP de l’interface de sortie est **dynamique** (par exemple obtenue via DHCP).
 
 Exemple :
@@ -181,7 +172,7 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 ```
 ### 1.5 DNAT & publication de services
 
-**DNAT (Destination NAT)** : le DNAT modifie l’**adresse de destination** (et éventuellement le port) d’un paquet.
+DNAT (Destination NAT) : le DNAT modifie l’adresse de destination (et éventuellement le port) d’un paquet.
 
 C’est typiquement utilisé pour :
 
@@ -199,24 +190,24 @@ iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT --to-destination
 **Définition**
 
 - `REDIRECT` est une cible de la table `nat`.
-- C’est un cas particulier de **DNAT** où la destination est modifiée pour pointer vers **la machine locale** (le firewall lui-même).
+- C’est un cas particulier de DNAT où la destination est modifiée pour pointer vers la machine locale (le firewall lui-même).
 - On peut aussi changer le port de destination.
 
 **Utilisation typique**
 
-- Rediriger le trafic vers un **proxy transparent** (HTTP, par exemple).
+- Rediriger le trafic HTTP, HTTPS,...
 - Intercepter un service pour le filtrer, le journaliser ou l’analyser.
 - Forcer l’utilisation d’un service local (proxy, cache, etc.) sans configurer les clients.
 
 **Fonctionnement**
 
 - Le paquet arrive avec :
-  - une destination : `IP_firewall:port_original`,
+  - une destination : `IP_firewall:port_original` et
   - un port attendu (ex. 80 pour HTTP).
 - La règle `REDIRECT` réécrit la destination vers :
   - `IP_firewall` (l’adresse locale),
   - un autre port (ex. 8080 pour un proxy).
-- Le **connection tracking** assure ensuite le suivi de la connexion et la réécriture correcte des paquets retour.
+- Le connection tracking assure ensuite le suivi de la connexion et la réécriture correcte des paquets retour.
 
 **Exemple : proxy HTTP transparent**
 
