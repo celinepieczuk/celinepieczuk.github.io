@@ -160,9 +160,3 @@ Faites une copie de sauvegarde du script précédent et modifiez-le en ajoutant 
 16. Faites en sorte d'avoir l'accès à Internet aux clients.
 17. Faites en sorte que votre serveur web soit accessible depuis le réseau extérieur (celui de l'école) via le port par défaut.
 18. Modifiez la précédente règle afin que votre site web soit disponible via un autre port (non utilisé par un protocole).
-
-
-
-
-[1](#sdfootnote1anc) Ne pas oublier d'autoriser votre firewall a administrer votre voisin de droite !
-
