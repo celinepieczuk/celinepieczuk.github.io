@@ -219,7 +219,7 @@ iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-ports 8
 Que font les règles suivantes?
 
 ```bash
-iptables -t nat -A POSTROUTING -o eth0 -j SNAT –to-source 10.1.1.1
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 10.1.1.1
 iptables -t nat -A POSTROUTING -p tcp -o eth1 -j SNAT --to-source 10.1.1.1-10.1.1.20:1024-32000
 iptables -t nat -A POSTROUTING -o eth3 -j MASQUERADE
 iptables -t nat -A PREROUTING -p tcp -d 15.45.23.67 --dport 80 -j DNAT --to-destination 192.168.1.1-192.168.1.10
