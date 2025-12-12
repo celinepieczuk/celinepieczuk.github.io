@@ -253,8 +253,8 @@ Faites une copie de sauvegarde du script précédent et modifiez-le en ajoutant 
 10. Le routage est pris en charge par le script et non plus par la configuration du réseau. 
 11. Lors de l'arrêt par systemd, les routes sont supprimées.
 12. Autoriser ping depuis lan1 vers lan2.
-13. Autoriser l'administration des machines du lan2 depuis le lan1 (ssh).
-14. Autoriser au firewall d'être administréLes par la machine du lan2  .
+13. Autoriser l'administration des machines du lan2 depuis le lan1 (SSH).
+14. Autoriser au firewall d'être administré par la machine du lan2 (SSH).
 15. Autoriser l'accès au web (surfer) au lan1 et 2 en un minimum de lignes.
 
 ### Firewall Statefull + NAT
