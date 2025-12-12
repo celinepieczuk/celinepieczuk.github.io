@@ -115,7 +115,7 @@ Modifiez ce script pour qu'il
 iptables -t filter -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
-iptables -A INPUT -s IpDuLan -i CarteDuLan -d IpAutreLan -o CarteAutreLan -m tcp -p tcp --dport 4000:4010 -j ACCEPT 
+iptables -A INPUT -s IpDuLan -i CarteDuLan -o CarteAutreLan -m tcp -p tcp --dport 4000:4010 -j ACCEPT 
 ```
 
 N'oubliez pas de vérifier que tout est bloqué sauf ce qui est autorisé, ici à l'aide de la commande `iptable -L` et de `ping` depuis la loopback et une autre IP.
