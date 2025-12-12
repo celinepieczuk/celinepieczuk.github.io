@@ -76,10 +76,8 @@ En pratique, un firewall stateful :
 #### Exemple d’utilisation dans iptables
 
 ```bash
-# Politique par défaut bloquante
 for chain in INPUT OUTPUT FORWARD
 do
-    iptables -P "$chain" DROP
     # Autorise les paquets de connexions déjà établies ou liées
     iptables -A "$chain" -m state --state ESTABLISHED,RELATED -j ACCEPT
 done
