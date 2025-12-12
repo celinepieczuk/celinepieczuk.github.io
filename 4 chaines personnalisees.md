@@ -32,7 +32,7 @@ iptables -P FORWARD DROP
 ### OUTPUT RULES ###
 
 
-iptables -P OUTPUT DROP
+iptables -P OUTPUT ACCEPT
 
 ###################### #nat# ###################### 
 ###Dnat###
