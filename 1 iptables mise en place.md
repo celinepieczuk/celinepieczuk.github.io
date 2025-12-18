@@ -7,7 +7,6 @@ permalink: /mise-en-place/
 # Mise en place du laboratoire
 
 ---
-
 ## Résumé
 
 |                 |                                                           |
