@@ -89,19 +89,16 @@ Après cette section, vous serez capable sous Linux de :
 
 ### Configuration du routage
 
-Rappel de commandes pour le routage IPv4 (principe identique pour IPv6) :
+Routage IPv4 sur Debian13 :
 
 ```bash
-# cat /proc/sys/net/ipv4/ip_forward
-1
+# Création du fichier /etc/sysctl.d/90-labo-routage.conf et ajoutez dedans:
+net.ipv4.ip_forward = 1
+
+#Reboot la VM
 
 # sysctl net.ipv4.ip_forward
 net.ipv4.ip_forward = 1
-
-# cat /etc/sysctl.conf
-...
-net.ipv4.ip_forward = 0
-...
 
 # ip route show
 # ip route add 192.168.55.0/24 via 192.168.1.254
@@ -113,8 +110,6 @@ address 192.168.1.2
 netmask 255.255.255.0
 gateway 192.168.1.254
 dns-nameservers 10.0.80.11 10.0.80.12
-up ip route add 192.168.55.0/24 via 192.168.1.254
-down ip route del 192.168.55.0/24 via 192.168.1.254
 ```
 
 ---
